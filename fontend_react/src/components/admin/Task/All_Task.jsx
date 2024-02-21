@@ -1,0 +1,120 @@
+
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import MasterLayout from '../../../layouts/admin/MasterLayout'
+
+
+const All_Task = () => {
+    const [loading, setLoading] = useState(true);
+    const [tasklist, setTasklist] = useState([]);
+
+    useEffect(() => {
+        document.title = "View Task"
+        axios.get(`/api/all-task`).then(res => {
+            if (res.status === 200) {
+                setTasklist(res.data.task)
+            }
+            setLoading(false);
+        });
+    }, []);
+
+
+    const deleteTask = (e, id) => {
+        const thisClicked = e.currentTarget;
+        thisClicked.innerText = "Deleting";
+
+        axios.delete(`api/delete-task/${id}`).then(res => {
+            if (res.data.status === 200) {
+                swal('Success', res.data.message, 'success');
+                thisClicked.closest("tr").remove();
+
+            }
+            else if (res.data.status === 404) {
+                swal('Success', res.data.message, 'success');
+                thisClicked.innerText = "Delete";
+            }
+        });
+        e.preventDefault();
+    }
+
+    var viewTask = '';
+    if (loading) {
+        return <h3 className='text-center mt-5'>Loaging Task...</h3>
+    } else {
+        viewTask =
+            tasklist.map((items) => {
+                return (
+                    <tr key={items.id}>
+                        <td>{items.id}</td>
+                        <td>{items.title}</td>
+                        <td>{items.description}</td>
+                        <td>{items.status}</td>
+                        <td>
+                            <Link to={`/admin/edit-category/${items.id}`} className='btn btn-success btn-sm me-1'><i className="fa-solid fa-pen"></i></Link>
+                            <button type='button' onClick={(e) => deleteTask(e, items.id)} className='btn btn-danger btn-sm'><i className="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                )
+            });
+    }
+
+    return (
+        <div>
+            <MasterLayout>
+                <div className="card mb-4">
+                    <div className="p-3">
+                        <div><h2>All Task
+                            
+                            <Link to="/admin/completeTask" className='btn btn-primary ms-4'>Completed Task</Link>
+                            <Link to="/admin/addTask" className='btn btn-primary float-end ms-4'>Add Task +</Link>
+                            <samp className='float-end fs-5 ms-3 mt-1'><i class="fa-solid fa-sliders"></i></samp>
+                            <samp className='float-end fs-5 ms-3 mt-1'><i class="fa-solid fa-user-group"></i></samp>
+                            <samp className='float-end fs-5 ms-3 mt-1'><i class="fa-solid fa-arrow-rotate-right"></i></samp>
+                            <samp className='float-end fs-5 mt-1'><i class="fa-solid fa-arrow-rotate-left"></i></samp>
+                        </h2>
+                        </div>
+                    </div>
+
+                    <div className="card-body">
+                        <table className='table table-striped' id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th># ID</th>
+                                    <th>Title</th>
+                                    <th style={{ width: "500px" }}>Description</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {viewTask}
+                            </tbody>
+                        </table>
+                    </div>
+
+{/* test */}
+
+                    {/* <div className="row">
+                        <div className="col-3" style={{ minHeight: "50px" }}>
+                            <div className="card m-1" style={{ backgroundColor: "rgb(245, 247, 127)" }}>
+                                <div className="pl-2 " style={{ fontSize: "12px ; lineHight:2px" }}>
+                                    <h5> {viewTask}</h5>
+                                    <p> Brand : rttrrt</p>
+                                   
+                                </div>
+                                <div className="pb-1 pl-1">
+                                    <button type="submit" className="btn btn-success"><i className="fa-solid fa-cart-shopping"></i></button>
+                                    <input type="number" value="1" name="qty" style={{ width: "40px"}}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div> */}
+                </div>
+            </MasterLayout>
+        </div>
+
+    )
+}
+
+export default All_Task
