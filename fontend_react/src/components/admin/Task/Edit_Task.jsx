@@ -24,7 +24,6 @@ function EditCategory() {
         setTask({ ...taskInput, [e.target.name]: e.target.value })
     }
 
-
     const updateTask = (e) => {
 
         const data = taskInput;

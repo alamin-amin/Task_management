@@ -16,7 +16,7 @@ const AddTask = () => {
     error_list: [],
   });
   const handleInput = (e) => {
-    setTask({ ...taskInput, [e.target.name]: e.target.value }); 
+    setTask({ ...taskInput, [e.target.name]: e.target.value });
   }
   const submitTaskFrom = (e) => {
     axios.post(`api/add-task`, data).then(res => {
@@ -28,7 +28,7 @@ const AddTask = () => {
         setTask({ ...taskInput, error_list: res.data.errors });
       }
     });
-   
+
     e.preventDefault();
     navigate('/admin/allTask')
   }
@@ -38,7 +38,7 @@ const AddTask = () => {
     status: taskInput.status,
     date: taskInput.date,
   }
-
+  const date = new Date();
 
   return (
     <div className='ms-3'>
@@ -65,14 +65,13 @@ const AddTask = () => {
                   <label htmlFor="status">Status</label>
                   <select name="status" onChange={handleInput} value={taskInput.status} id="status" className="form-control">
                     <option value="2">none</option>
-                    <option value="1">Active</option>
-                    <option value="0">Block</option>
+                    <option value="0">Task Status</option>
                   </select>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="mb-2">
-                <input type="date" name="date" value={taskInput.date} onChange={handleInput} />    
+                  <input type="hidden" name="date" value={taskInput.date} onChange={handleInput} className="form-control" />
                 </div>
               </div>
               <div className=" mb-3">

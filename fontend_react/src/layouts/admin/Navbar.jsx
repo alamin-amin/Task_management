@@ -40,10 +40,9 @@ const Navbar = () => {
     }
 
     let bgImage ={
-        // backgroundColor:'#682E13',
-        //  backgroundColor:'#D6A888',
          backgroundColor:'#FBD395'
     }
+
     return (
         <div>
             <nav className="navbar fixed-top navbar-expand-sm bg-light" style={bgImage}>
@@ -55,27 +54,13 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{ marginLeft: "120px" }}>
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/frontHome">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="#">Home</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="#">Contact </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/About">About</Link>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </Link>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><Link className="dropdown-item" to="#">Action</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Another action</Link></li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li><Link className="dropdown-item" to="#">Something else here</Link></li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/collections" tabindex="-1" aria-disabled="true">Category</Link>
+                                <Link className="nav-link" to="#">About</Link>
                             </li>
                         </ul>
                         <div style={{ marginRight: "120px" }}>

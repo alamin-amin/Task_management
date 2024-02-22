@@ -8,7 +8,7 @@ const Sidebar = () => {
                 <div className="nav sidenavAccordionPages">
 
                     <nav className="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <Link className="nav-link" to="/dashboard">
+                        <Link className="nav-link" to="#">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </Link>
@@ -21,7 +21,7 @@ const Sidebar = () => {
                             <nav className="sb-sidenav-menu-nested nav">
                                 <Link className="nav-link" to="/admin/allTask">All Task</Link>
                                 <Link className="nav-link" to="/admin/addTask">Add Task</Link>
-                                <Link className="nav-link" to="/admin/editCategory">Edit Task</Link>
+                                <Link className="nav-link" to="#"></Link>
                             </nav>
                         </div>
 

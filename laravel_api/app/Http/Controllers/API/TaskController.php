@@ -10,27 +10,27 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
-
+    // All Task
     public function index()
     {
-        $task = Task::all();
+        $task = Task::where('status', "=", 0)->get();
         return response()->json([
             'status' => 200,
             'task' => $task,
         ]);
     }
-
-    public function allCategory()
+    // All conpleted Task
+    public function allCompleteTask()
     {
-        $category = Task::where('status', '0')->get();
+        $complete = Task::where('status', '=', 1)->get();
         return response()->json([
             'status' => 200,
-            'category' => $category,
+            'complete' => $complete,
         ]);
     }
-
+    // Store Task
     public function addTask(Request $request)
-   
+
     {
         $validator = Validator::make($request->all(), [
             'title' => 'Required',
@@ -56,7 +56,7 @@ class TaskController extends Controller
             ]);
         }
     }
-
+    //Edit task
     public function editTask($id)
     {
         $task = Task::find($id);
@@ -73,8 +73,9 @@ class TaskController extends Controller
         }
     }
 
-
-    public function update(Request $request,$id){
+    // Update Task
+    public function update(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'title' => 'Required',
             'description' => 'Required',
@@ -98,7 +99,7 @@ class TaskController extends Controller
             ]);
         }
     }
-
+    //Delete task
     public function destroy($id)
     {
         $task = Task::find($id);
@@ -115,13 +116,15 @@ class TaskController extends Controller
             ]);
         }
     }
-
-    // public function complteTask()
-    // {
-    //     $task = Task::where('status'->1=complte)->get();
-    //     return response()->json([
-    //         'status' => 200,
-    //         'task' => $task,
-    //     ]);
-    // }
+    //Update Incomplete Task
+    public function completeTask($id)
+    {
+        $task = Task::where('id', $id)->update([
+            "status" => true,
+        ]);
+        return response()->json([
+            'status' => 200,
+            'task' => $task,
+        ]);
+    }
 }

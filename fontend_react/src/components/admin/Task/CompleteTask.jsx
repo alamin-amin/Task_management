@@ -7,32 +7,52 @@ import MasterLayout from '../../../layouts/admin/MasterLayout'
 
 const CompleteTask = () => {
     const [loading, setLoading] = useState(true);
-    const [tasklist, setTasklist] = useState([]);
+    const [completeList, setCompleteList] = useState([]);
 
     useEffect(() => {
         document.title = "View Task"
-        axios.get(`/api/all-task`).then(res => {
+        axios.get(`/api/allCompleteTask`).then(res => {
             if (res.status === 200) {
-                setTasklist(res.data.task)
+                setCompleteList(res.data.complete)
             }
             setLoading(false);
         });
     }, []);
+
+
+    const deleteTask = (e, id) => {
+        const thisClicked = e.currentTarget;
+        thisClicked.innerText = "Deleting";
+
+        axios.delete(`api/delete-task/${id}`).then(res => {
+            if (res.data.status === 200) {
+                swal('Success', res.data.message, 'success');
+                thisClicked.closest("tr").remove();
+
+            }
+            else if (res.data.status === 404) {
+                swal('Success', res.data.message, 'success');
+                thisClicked.innerText = "Delete";
+            }
+        });
+        e.preventDefault();
+    }
+
 
     var viewTask = '';
     if (loading) {
         return <h3 className='text-center mt-5'>Loaging Task...</h3>
     } else {
         viewTask =
-            tasklist.map((items) => {
+            completeList.map((items) => {
                 return (
                     <tr key={items.id}>
-                        <td>{items.id}</td>
+                        {/* <td>{items.id}</td> */}
                         <td>{items.title}</td>
                         <td>{items.description}</td>
-                        <td>{items.status}</td>
+                        <td>{items.status == 1 ? "Completed":"Incomplete" }</td>
+                        <td>{items.date}</td>
                         <td>
-                            <Link to={`/admin/edit-category/${items.id}`} className='btn btn-success btn-sm me-1'><i className="fa-solid fa-pen"></i></Link>
                             <button type='button' onClick={(e) => deleteTask(e, items.id)} className='btn btn-danger btn-sm'><i className="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
@@ -46,7 +66,8 @@ const CompleteTask = () => {
                 <div className="card mb-4">
                     <div className="p-3">
                         <div className='text-center pt-4'>
-                            <h2><i class="fa-solid fa-check-double"></i> Completed Task </h2>
+                            <samp className='fs-3'><i class="fa-solid fa-check-double"></i> Completed Task </samp>
+                            <Link to="/admin/allTask" className='btn btn-primary me-3 float-end'>Back</Link>
                         </div>
                     </div>
 
@@ -54,10 +75,11 @@ const CompleteTask = () => {
                         <table className='table table-striped' id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th># ID</th>
+                                    {/* <th># ID</th> */}
                                     <th>Title</th>
                                     <th style={{ width: "500px" }}>Description</th>
                                     <th>Status</th>
+                                    <th>Completed Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
